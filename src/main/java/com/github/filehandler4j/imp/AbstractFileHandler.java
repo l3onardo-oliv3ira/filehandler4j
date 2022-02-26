@@ -2,15 +2,15 @@ package com.github.filehandler4j.imp;
 
 import java.io.File;
 
+import com.github.filehandler4j.IFileHandler;
+import com.github.filehandler4j.IFileInfoEvent;
 import com.github.filehandler4j.IInputDescriptor;
 import com.github.filehandler4j.IOutputResolver;
-import com.github.filehandler4j.IFileHandler;
-import com.github.filehandler4j.IFileEvent;
 
 import io.reactivex.Emitter;
 import io.reactivex.Observable;
 
-public abstract class AbstractFileHandler<T extends IFileEvent> implements IFileHandler<T> {
+public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements IFileHandler<T> {
 
   private IOutputResolver resolver;
   
