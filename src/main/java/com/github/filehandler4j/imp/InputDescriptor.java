@@ -9,39 +9,46 @@ import java.util.Collections;
 import java.util.List;
 
 import com.github.filehandler4j.IInputDescriptor;
+import com.github.filehandler4j.IInputFile;
 import com.github.utils4j.imp.Args;
 import com.github.utils4j.imp.Strings;
 
 public class InputDescriptor implements IInputDescriptor {
   
-  private List<File> inputs;
-  private Path outputPath;
-  private String namePrefix;
-  private String nameSuffix;
+  protected List<IInputFile> inputs;
+  protected Path outputPath;
+  protected String namePrefix;
+  protected String nameSuffix;
+  protected String extension;
   
-  private InputDescriptor() {}
+  public InputDescriptor() {
+  }
 
   @Override
-  public Iterable<File> getInputPdfs() {
+  public Iterable<IInputFile> getInputPdfs() {
     return inputs;
   }
 
   @Override
   public File resolveOutput(String fileName) {
-    return outputPath.resolve(namePrefix + fileName + nameSuffix + ".pdf").toFile();
+    return outputPath.resolve(namePrefix + fileName + nameSuffix + extension).toFile();
   }
 
   public static class Builder {
-    private List<File> inputs = new ArrayList<>(2);
-    private String nameSuffix = Strings.empty();
-    private String namePrefix = Strings.empty();
+    protected List<IInputFile> inputs = new ArrayList<>(2);
+    protected String nameSuffix = Strings.empty();
+    protected String namePrefix = Strings.empty();
+    protected String extension;
   
-    private Path output = Paths.get(System.getProperty("java.io.tmpdir"));
+    protected Path output = Paths.get(System.getProperty("java.io.tmpdir"));
+    
+    public Builder(String extension) {
+      Args.requireText(extension, "extension is empty");
+      this.extension = Strings.trim(extension);
+    }
     
     public Builder add(File input) {
-      Args.requireExists(input, "input does not exists");
-      inputs.add(input);
-      return this;
+      return add(new FileWrapper(input));
     }
     
     public Builder nameSuffix(String suffix) {
@@ -56,25 +63,37 @@ public class InputDescriptor implements IInputDescriptor {
       return this;
     }
     
-    public Builder output(Path output) {
-      Args.requireNonNull(output, "output is null");
-      this.output = output;
+    public Builder output(Path folder) {
+      Args.requireNonNull(folder, "folder is null");
+      this.output = folder;
       return this;
     }
     
-    public IInputDescriptor build() throws IOException {
-      InputDescriptor desc = new InputDescriptor();
+    protected Builder add(IInputFile file) {
+      Args.requireTrue(file.exists(), "input does not exists");
+      inputs.add(file);
+      return this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T extends IInputDescriptor> T build() throws IOException {
+      InputDescriptor desc = createDescriptor();
       desc.inputs = Collections.unmodifiableList(inputs);
       desc.namePrefix = namePrefix;
       desc.nameSuffix = nameSuffix;
       desc.outputPath = output;
+      desc.extension = extension;
       File outputFile = output.toFile();
       if (!outputFile.exists()) {
         if (!outputFile.mkdirs()) {
-          throw new IOException("Unabled to create output dir " + outputFile.getAbsolutePath());
+          throw new IOException("Unabled to create output dir " + outputFile.getCanonicalPath());
         }
       }
-      return desc;
+      return (T)desc;
+    }
+
+    protected InputDescriptor createDescriptor() {
+      return new InputDescriptor();
     }
   }
 }

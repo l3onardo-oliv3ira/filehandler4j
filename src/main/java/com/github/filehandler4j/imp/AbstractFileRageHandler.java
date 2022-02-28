@@ -2,31 +2,32 @@ package com.github.filehandler4j.imp;
 
 import com.github.filehandler4j.IFileInfoEvent;
 import com.github.filehandler4j.IFileRange;
+import com.github.filehandler4j.IIterator;
 import com.github.utils4j.imp.Args;
 
-public abstract class AbstractFileRageHandler<T extends IFileInfoEvent> extends AbstractFileHandler<T> {
+public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extends IFileRange> extends AbstractFileHandler<T> {
 
-  private int iterator = 0;
-  private final FileRange[] ranges;
+  private IIterator<R> iterator;
   
-  public AbstractFileRageHandler(FileRange ...ranges) {
-    this.ranges = Args.requireNonEmpty(ranges, "ranges is empty");
+  public AbstractFileRageHandler(IIterator<R> iterator) {
+    this.setIterator(iterator);
   }
   
-  @SuppressWarnings("unchecked")
-  protected final <R extends IFileRange> R nextRange() {
-    if (iterator == ranges.length)
-      return null;
-    FileRange next = ranges[iterator++];
-    while(next == null && iterator < ranges.length)
-      next = ranges[iterator++];
-    return (R)next;
+  protected final R next() {
+    R next = null;
+    while(iterator.hasNext() && (next = iterator.next()) == null)
+      ;
+    return next;
   }
   
   @Override
   public void reset() {
-    iterator = 0;
+    iterator.reset();
     super.reset();
   }
   
+  protected void setIterator(IIterator<R> iterator) {
+    Args.requireNonNull(iterator, "iterator is null");
+    this.iterator = iterator;
+  }
 }

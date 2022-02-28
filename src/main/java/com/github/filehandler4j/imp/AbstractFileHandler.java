@@ -5,6 +5,7 @@ import java.io.File;
 import com.github.filehandler4j.IFileHandler;
 import com.github.filehandler4j.IFileInfoEvent;
 import com.github.filehandler4j.IInputDescriptor;
+import com.github.filehandler4j.IInputFile;
 import com.github.filehandler4j.IOutputResolver;
 
 import io.reactivex.Emitter;
@@ -23,7 +24,7 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
     return Observable.create((emitter) -> {
       try {
         beforeHandle(emitter);
-        for(File file: desc.getInputPdfs()) {
+        for(IInputFile file: desc.getInputPdfs()) {
           handle(file, emitter);
         };        
         afterHandle(emitter);
@@ -52,5 +53,5 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
 
   protected void handleError(Throwable e) { }
   
-  protected abstract void handle(File file, Emitter<T> emitter) throws Exception;    
+  protected abstract void handle(IInputFile file, Emitter<T> emitter) throws Exception;    
 }
