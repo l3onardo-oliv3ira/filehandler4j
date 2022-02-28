@@ -13,7 +13,7 @@ public class FileRange implements IFileRange {
   }
 
   public FileRange(long start, long end) {
-    Args.requireTrue(start >= 0 && start < end, "invalid arguments");
+    Args.requireTrue(start >= 0 && start <= end, "invalid arguments");
     this.start = start;
     this.end = end;
   }
