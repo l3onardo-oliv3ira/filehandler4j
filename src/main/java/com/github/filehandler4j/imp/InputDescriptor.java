@@ -13,7 +13,7 @@ import com.github.filehandler4j.IInputFile;
 import com.github.utils4j.imp.Args;
 import com.github.utils4j.imp.Strings;
 
-public class InputDescriptor implements IInputDescriptor {
+public abstract class InputDescriptor implements IInputDescriptor {
   
   protected List<IInputFile> inputs;
   protected Path outputPath;
@@ -21,7 +21,7 @@ public class InputDescriptor implements IInputDescriptor {
   protected String nameSuffix;
   protected String extension;
   
-  public InputDescriptor() {
+  protected InputDescriptor() {
   }
 
   @Override
@@ -34,7 +34,7 @@ public class InputDescriptor implements IInputDescriptor {
     return outputPath.resolve(namePrefix + fileName + nameSuffix + extension).toFile();
   }
 
-  public static class Builder {
+  public static abstract class Builder {
     protected List<IInputFile> inputs = new ArrayList<>(2);
     protected String nameSuffix = Strings.empty();
     protected String namePrefix = Strings.empty();
@@ -92,8 +92,6 @@ public class InputDescriptor implements IInputDescriptor {
       return (T)desc;
     }
 
-    protected InputDescriptor createDescriptor() {
-      return new InputDescriptor();
-    }
+    protected abstract InputDescriptor createDescriptor();
   }
 }

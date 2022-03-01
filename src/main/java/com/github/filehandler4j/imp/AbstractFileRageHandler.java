@@ -1,11 +1,11 @@
 package com.github.filehandler4j.imp;
 
 import com.github.filehandler4j.IFileInfoEvent;
-import com.github.filehandler4j.IFileRange;
+import com.github.filehandler4j.IFileSlice;
 import com.github.filehandler4j.IIterator;
 import com.github.utils4j.imp.Args;
 
-public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extends IFileRange> extends AbstractFileHandler<T> {
+public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extends IFileSlice> extends AbstractFileHandler<T> {
 
   private IIterator<R> iterator;
   

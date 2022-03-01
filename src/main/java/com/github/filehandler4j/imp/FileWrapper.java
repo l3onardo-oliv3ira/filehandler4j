@@ -8,7 +8,7 @@ import com.github.utils4j.imp.Args;
 
 public class FileWrapper implements IInputFile {
 
-  private File file;
+  private final File file;
 
   public FileWrapper(File file) {
     this.file = Args.requireNonNull(file, "file is null");

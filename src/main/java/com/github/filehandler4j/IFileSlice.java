@@ -1,6 +1,6 @@
 package com.github.filehandler4j;
 
-public interface IFileRange {
+public interface IFileSlice {
 
   long start();
 
