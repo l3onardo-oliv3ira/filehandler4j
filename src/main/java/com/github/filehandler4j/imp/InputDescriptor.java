@@ -69,7 +69,7 @@ public abstract class InputDescriptor implements IInputDescriptor {
       return this;
     }
     
-    protected Builder add(IInputFile file) {
+    public Builder add(IInputFile file) {
       Args.requireTrue(file.exists(), "input does not exists");
       inputs.add(file);
       return this;
