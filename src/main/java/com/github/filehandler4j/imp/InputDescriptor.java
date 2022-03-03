@@ -52,13 +52,13 @@ public abstract class InputDescriptor implements IInputDescriptor {
     }
     
     public Builder nameSuffix(String suffix) {
-      Args.requireText(suffix, "suffix is empty");
+      Args.requireNonNull(suffix, "suffix is empty");
       nameSuffix = Strings.trim(suffix);
       return this;
     }
     
     public Builder namePrefix(String prefix) {
-      Args.requireText(prefix, "prefix is empty");
+      Args.requireNonNull(prefix, "prefix is empty");
       namePrefix = Strings.trim(prefix);
       return this;
     }
