@@ -38,4 +38,11 @@ public class FileWrapper implements IInputFile {
   public Path toPath() {
     return file.toPath();
   }
+
+  @Override
+  public final String getShortName() {
+    String name = file.getName();
+    int dot = name.lastIndexOf('.');
+    return name.substring(0, dot > 0 ? dot : name.length());
+  }
 }

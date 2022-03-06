@@ -7,6 +7,8 @@ public interface IInputFile {
 
   String getName();
   
+  String getShortName();
+  
   Path toPath();
   
   long length();
