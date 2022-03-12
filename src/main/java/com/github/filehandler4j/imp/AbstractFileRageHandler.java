@@ -13,7 +13,7 @@ public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extend
     this.setIterator(iterator);
   }
   
-  protected final R next() {
+  protected final R nextSlice() {
     R next = null;
     while(iterator.hasNext() && (next = iterator.next()) == null)
       ;
