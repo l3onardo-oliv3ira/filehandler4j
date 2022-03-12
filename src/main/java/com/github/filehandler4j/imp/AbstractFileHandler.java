@@ -18,6 +18,12 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
   public AbstractFileHandler() {
   }  
   
+  protected void checkInterrupted() throws InterruptedException {
+    if (Thread.currentThread().isInterrupted()) {
+      throw new InterruptedException();
+    }
+  }
+  
   @Override
   public final Observable<T> apply(IInputDescriptor desc) {
     this.resolver = desc;
@@ -25,6 +31,7 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
       try {
         beforeHandle(emitter);
         for(IInputFile file: desc.getInputPdfs()) {
+          checkInterrupted();
           handle(file, emitter);
         };        
         afterHandle(emitter);
@@ -43,7 +50,7 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
     resolver = null;
   }
   
-  protected final File resolve(String fileName) {
+  protected final File resolveOutput(String fileName) {
     return resolver.resolveOutput(fileName);
   }
 
