@@ -52,7 +52,7 @@ public abstract class InputDescriptor implements IInputDescriptor {
   }
 
   @Override
-  public Iterable<IInputFile> getInputPdfs() {
+  public Iterable<IInputFile> getInputFiles() {
     return inputs;
   }
 

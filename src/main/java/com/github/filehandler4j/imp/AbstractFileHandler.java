@@ -57,7 +57,7 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
     return Observable.create((emitter) -> {
       try {
         beforeHandle(emitter);
-        for(IInputFile file: desc.getInputPdfs()) {
+        for(IInputFile file: desc.getInputFiles()) {
           checkInterrupted();
           handle(file, emitter);
         };        
