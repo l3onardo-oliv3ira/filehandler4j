@@ -80,6 +80,11 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
   protected final File resolveOutput(String fileName) {
     return resolver.resolveOutput(fileName);
   }
+  
+  protected void interruptAndWait(Thread reader) throws InterruptedException {
+    reader.interrupt();
+    reader.join(2000);
+  }
 
   protected void beforeHandle(Emitter<T> emitter) throws Exception { }
   
