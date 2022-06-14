@@ -70,7 +70,6 @@ public abstract class InputDescriptor implements IInputDescriptor {
     protected Path output = Paths.get(System.getProperty("java.io.tmpdir"));
     
     public Builder(String extension) {
-      Args.requireText(extension, "extension is empty");
       this.extension = Strings.trim(extension);
     }
     

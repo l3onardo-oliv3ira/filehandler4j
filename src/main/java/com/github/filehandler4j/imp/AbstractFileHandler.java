@@ -83,7 +83,7 @@ public abstract class AbstractFileHandler<T extends IFileInfoEvent> implements I
   
   protected void interruptAndWait(Thread reader) throws InterruptedException {
     reader.interrupt();
-    reader.join(2000);
+    reader.join(3000);
   }
 
   protected void beforeHandle(Emitter<T> emitter) throws Exception { }
