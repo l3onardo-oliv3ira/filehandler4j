@@ -29,14 +29,14 @@ package com.github.filehandler4j.imp;
 
 import com.github.filehandler4j.IFileInfoEvent;
 import com.github.filehandler4j.IFileSlice;
-import com.github.utils4j.IResetableIterator;
+import com.github.utils4j.ISmartIterator;
 import com.github.utils4j.imp.Args;
 
 public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extends IFileSlice> extends AbstractFileHandler<T> {
 
-  private IResetableIterator<R> iterator;
+  private ISmartIterator<R> iterator;
   
-  public AbstractFileRageHandler(IResetableIterator<R> iterator) {
+  public AbstractFileRageHandler(ISmartIterator<R> iterator) {
     this.setIterator(iterator);
   }
   
@@ -47,13 +47,20 @@ public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extend
     return next;
   }
   
+  protected final R previousSlice() {
+    R prev = null;
+    while(iterator.hasPrevious() && (prev = iterator.previous()) == null)
+      ;
+    return prev;
+  }
+  
   @Override
   public void reset() {
     iterator.reset();
     super.reset();
   }
   
-  protected void setIterator(IResetableIterator<R> iterator) {
+  protected void setIterator(ISmartIterator<R> iterator) {
     Args.requireNonNull(iterator, "iterator is null");
     this.iterator = iterator;
   }
