@@ -32,6 +32,7 @@ import java.nio.file.Path;
 
 import com.github.filehandler4j.IInputFile;
 import com.github.utils4j.imp.Args;
+import com.github.utils4j.imp.Directory;
 
 public class FileWrapper implements IInputFile {
 
@@ -43,7 +44,7 @@ public class FileWrapper implements IInputFile {
   
   @Override
   public String getAbsolutePath() {
-    return file.getAbsolutePath();
+    return Directory.stringPath(file);
   }
 
   @Override

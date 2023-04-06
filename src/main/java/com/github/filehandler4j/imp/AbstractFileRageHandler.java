@@ -60,6 +60,8 @@ public abstract class AbstractFileRageHandler<T extends IFileInfoEvent, R extend
     super.reset();
   }
   
+  
+  
   protected void setIterator(ISmartIterator<R> iterator) {
     Args.requireNonNull(iterator, "iterator is null");
     this.iterator = iterator;
